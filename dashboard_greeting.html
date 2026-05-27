@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unna:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      background: transparent;
+      text-align: left !important;
+    }
+
+    .dashboard-title {
+      font-family: 'Unna', serif;
+      font-size: 60px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      text-align: left !important;
+      color: #f8f7f5;
+      text-transform: uppercase;
+      display: block;
+      width: 100%;
+      margin-left: 0;
+      margin-right: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="dashboard-title" id="greeting">GOOD MORNING</div>
+
+  <script>
+    function updateGreeting() {
+      const now = new Date();
+
+      // Uses America/Chicago so it stays accurate during daylight saving time
+      const chicagoTime = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Chicago',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false
+      }).formatToParts(now);
+
+      const hour = Number(chicagoTime.find(part => part.type === 'hour').value);
+      const minute = Number(chicagoTime.find(part => part.type === 'minute').value);
+
+      let greeting = '';
+
+      if (hour >= 6 && hour < 12) {
+        greeting = 'GOOD MORNING';
+      } else if (hour >= 12 && hour < 17) {
+        greeting = 'GOOD AFTERNOON';
+      } else if ((hour === 17 && minute >= 1) || hour > 17) {
+        greeting = 'GOOD EVENING';
+      } else {
+        greeting = 'AFTER HOURS';
+      }
+
+      document.getElementById('greeting').textContent = greeting;
+    }
+
+    updateGreeting();
+    setInterval(updateGreeting, 60000);
+  </script>
+</body>
+</html>
